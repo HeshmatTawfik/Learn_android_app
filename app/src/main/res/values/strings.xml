@@ -7,4 +7,13 @@
     <string name="name">Name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="signup">Signup</string>
+    <string name="logout">LOGOUT</string>
+    <string name="lessons">Lessons</string>
+    <string name="open" translatable="false">open</string>
+    <string name="close" translatable="false">close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="required_field">Required field *</string>
+    <string name="addTopic">Add topic</string>
 </resources>

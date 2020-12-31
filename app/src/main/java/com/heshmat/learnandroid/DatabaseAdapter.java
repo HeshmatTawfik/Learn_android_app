@@ -101,7 +101,7 @@ public class DatabaseAdapter {
         //("CREATE TABLE  QUESTION (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,question TEXT NOT NULL,answers TEXT NOT NULL,correctChoice TEXT NOT NULL,topicID INTEGER)")
         ContentValues values = new ContentValues();
         values.put("question", question.getQuestion());
-        values.put("answers", question.getQuestion());
+        values.put("answers", question.getAnswers());
         values.put("correctChoice", question.getCorrectChoice());
         values.put("topicID", topicId);
         return sqLiteDatabase.insert(TABLE_QUESTION, null, values) > -1;
@@ -123,6 +123,18 @@ public class DatabaseAdapter {
 
         }
         return topics;
+    }
+
+    public boolean updateTopic(Topic topic) {
+        ContentValues values = new ContentValues();
+        topic.setStatus(1);
+        values.put("title", topic.getTitle());
+        values.put("content", topic.getContent());
+        values.put("level", topic.getLevel());
+        values.put("status", topic.getStatus());
+        return sqLiteDatabase.update(TABLE_TOPIC, values, "id" + " =" + topic.getId(), null) > 0;
+
+
     }
 
     public List<Question> getQuestions(long topicId) {

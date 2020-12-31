@@ -29,21 +29,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         mDatabaseAdapter = DatabaseAdapter.getDatabaseAdapter(this);
-       /* for(Topic topic:TopicsCreate.topics()){
-            mDatabaseAdapter.insertTopic(topic);
-        }*/
-        List<Topic> topics=mDatabaseAdapter.getTopics();
-        for (Topic topic:topics){
-            Log.i(TAG,"topic " +topic.toString());
-            List<Question> questions=topic.getExercise();
-            for (Question question:questions){
-                Log.i(TAG, "question: "+question.toString());
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        boolean topicWasInserted  = sharedPreferences.getBoolean("wasInserted", false);
+        if (!topicWasInserted){
+            for(Topic topic:TopicsCreate.topics()){
+                mDatabaseAdapter.insertTopic(topic);
+
             }
+            sharedPreferences.edit().putBoolean("wasInserted", true).apply();
 
         }
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

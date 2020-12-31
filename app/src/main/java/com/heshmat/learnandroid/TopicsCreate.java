@@ -47,7 +47,7 @@ public class TopicsCreate {
             "5) Applications\n" +
             "1) Linux kernel\n" +
             "\n" +
-            "next →← prev\n" +
+
             "Android Architecture\n" +
             "android architecture or Android software stack is categorized into five parts:\n" +
             "\n" +
@@ -192,7 +192,6 @@ public class TopicsCreate {
             "<category>\n" +
             "It adds a category name to an intent-filter.", StaticFields.LEVEL_EASY, 0);
     static Topic topic6 = new Topic("Android R.java file\n", "\n" +
-            "next →← prev\n" +
             "Android R.java file\n" +
             "Android R.java is an auto-generated file by aapt (Android Asset Packaging Tool) that contains resource IDs for all the resources of res/ directory.\n" +
             "\n" +
@@ -318,7 +317,7 @@ public class TopicsCreate {
         topic5.setExercise(group5);
         topic6.setExercise(group6);
         topic7.setExercise(group7);
-        return Arrays.asList(topic1, topic2, topic3, topic4, topic5, topic6, topic6);
+        return Arrays.asList(topic1, topic2, topic3, topic4, topic5, topic6, topic7);
     }
 
 }

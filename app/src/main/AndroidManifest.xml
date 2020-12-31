@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".userui.UserHomeActivity"></activity>
+        <activity android:name=".userui.QuizActivity"></activity>
+        <activity android:name=".TopicActivity" />
+        <activity
+            android:name=".userui.UserHomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".adminui.AdminHomeActivity" />
         <activity
             android:name=".SignupActivity"

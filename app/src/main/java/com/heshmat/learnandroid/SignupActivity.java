@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,6 +31,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
     File file;
@@ -94,23 +96,94 @@ public class SignupActivity extends AppCompatActivity {
 
     @OnClick(R.id.signUpBt)
     public void signUp(View view) {
-        User user = new User(StaticFields.ROLE_USER, signUpNameInL.getEditText().getText().toString(), signUpEmailInL.getEditText().getText().toString(), passwordSignUplInL.getEditText().getText().toString(), muri.toString());
+        if(validateForm()) {
+            User user = new User(StaticFields.ROLE_USER, signUpNameInL.getEditText().getText().toString(), signUpEmailInL.getEditText().getText().toString(), passwordSignUplInL.getEditText().getText().toString(), muri.toString());
 
-        try {
-            User.currentUser = mDatabaseAdapter.insertUser(user);
-            if (User.currentUser != null) {
-                Toast.makeText(this, "Successfully signed up", Toast.LENGTH_SHORT).show();
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-                sharedPreferences.edit().putLong("id", User.currentUser.getId()).apply();
-                startActivity(new Intent(SignupActivity.this, UserHomeActivity.class));
-                finish();
+            try {
+                User.currentUser = mDatabaseAdapter.insertUser(user);
+                if (User.currentUser != null) {
+                    Toast.makeText(this, "Successfully signed up", Toast.LENGTH_SHORT).show();
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+                    sharedPreferences.edit().putLong("id", User.currentUser.getId()).apply();
+                    startActivity(new Intent(SignupActivity.this, UserHomeActivity.class));
+                    finish();
+
+                }
+
+            } catch (SQLiteConstraintException e) {
+                new AlertDialog.Builder(this).setMessage("This email already linked to another account").setPositiveButton("Ok", null).show();
 
             }
+        }
 
-        } catch (SQLiteConstraintException e) {
-            new AlertDialog.Builder(this).setMessage("This email already linked to another account").setPositiveButton("Ok", null).show();
+    }
+
+    public boolean checkImg() {
+        if (muri == null) {
+            new AlertDialog.Builder(this).setMessage("Please choose an image").setPositiveButton("ok", null).show();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validatePassword() {
+        String password = passwordSignUplInL.getEditText().getText().toString();
+        String confirmPass = confirmPasswordInL.getEditText().getText().toString();
+        if (password.trim().isEmpty()) {
+            passwordSignUplInL.setError(getString(R.string.required_field));
+            return false;
+        }
+        if (confirmPass.trim().isEmpty()) {
+            confirmPasswordInL.setError(getString(R.string.required_field));
+            return false;
+        }
+        if (password.trim().length() < 8) {
+            passwordSignUplInL.setError("Must be at least 8 characters");
+            return false;
+        }
+        if (!password.equals(confirmPass)) {
+            passwordSignUplInL.setError("Password and confirm password must match");
+            confirmPasswordInL.setError("");
+            return false;
+        }
+        passwordSignUplInL.setError(null);
+        confirmPasswordInL.setError(null);
+
+        return true;
+    }
+
+    public boolean validateEmail() {
+        if (signUpEmailInL.getEditText().getText().toString().trim().isEmpty()) {
+
+            signUpEmailInL.setError(getString(R.string.required_field));
+            return false;
+        }
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        if (!pattern.matcher(signUpEmailInL.getEditText().getText().toString()).matches()) {
+            signUpEmailInL.setError("Invalid email");
+            return false;
+        }
+        signUpEmailInL.setError(null);
+        return true;
+
+    }
+    public boolean validateName() {
+        if (signUpNameInL.getEditText().getText().toString().trim().isEmpty()) {
+
+            signUpNameInL.setError(getString(R.string.required_field));
+            return false;
 
         }
 
+        signUpNameInL.setError(null);
+        return true;
+
+    }
+    public boolean validateForm(){
+        checkImg();
+        validateName();
+        validateEmail();
+        validatePassword();
+        return checkImg()&&validateName()&&validateName()&&validatePassword();
     }
 }

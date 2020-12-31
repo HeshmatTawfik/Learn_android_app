@@ -66,7 +66,9 @@ public class Question {
     public void setCorrectChoice(String correctChoice) {
         this.correctChoice = correctChoice;
     }
-
+    public String [] answerArr(){
+        return answers.split(",");
+    }
     @Override
     public String toString() {
         return "Question{" +

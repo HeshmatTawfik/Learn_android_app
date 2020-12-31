@@ -3,6 +3,7 @@ package com.heshmat.learnandroid.models;
 import java.util.List;
 
 public class Topic {
+    public static Topic currentChosenTopic;
     private int id;
     private String title;
     private String content;

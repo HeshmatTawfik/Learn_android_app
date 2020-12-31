@@ -24,7 +24,7 @@
         android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
         android:text="Learn Android"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#6351BA"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
